@@ -4,9 +4,10 @@ def remember_deploy(deploy_message)
   current_rev = current_revision.to_i + 1
   head_rev = real_revision
   svn_log = capture("cd #{current_path} && svn log -r #{head_rev}:#{current_rev}") rescue 'nothing'
+  app_name = exists?(:stage) ? "#{application} (#{stage})" : application
 
   client = DeployedIt::Client.new(deployedit_server)
-  client.new_deploy(application, ENV['USER'], deploy_message, svn_log, head_rev, current_rev)
+  client.new_deploy(app_name, ENV['USER'], deploy_message, svn_log, head_rev, current_rev)
 end
 
 _cset(:deployedit_server) { abort "Please specify the URL where your deployed_it server is running, set :deployedit_server, 'http://dev.example.org:4567'" }
