@@ -1,0 +1,9 @@
+DeployedIt
+==========
+
+A Rails plugin for storing information about each deploy. You need a running
+deployed_it server.
+
+
+
+Copyright (c) 2008 Florian Munz, released under the MIT license
