@@ -5,9 +5,11 @@ def remember_deploy(deploy_message)
   head_rev = real_revision
   svn_log = capture("cd #{current_path} && svn log -r #{head_rev}:#{current_rev}") rescue 'nothing'
 
-  client = DeployedIt::Client.new('http://localhost:4567')
+  client = DeployedIt::Client.new(deployedit_server)
   client.new_deploy(application, ENV['USER'], deploy_message, svn_log, head_rev, current_rev)
 end
+
+_cset(:deployedit_server) { abort "Please specify the URL where your deployed_it server is running, set :deployedit_server, 'http://dev.example.org:4567'" }
 
 namespace :deploy do
   desc "Remember each deploy with a custom deploy message"
