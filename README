@@ -1,8 +1,26 @@
-DeployedIt
+DeployedAt
 ==========
 
 A Rails plugin for storing information about each deploy. You need a running
-deployed_it server.
+deployed_at server: http://github.com/theflow/deployed_at
+
+Installation
+============
+
+This is basically just the capistrano task to hook it into the deploy. Make
+sure you have this line in your Capfile
+
+    Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
+
+Then you need to define the deployed_at server endpoint in your deploy.rb:
+
+    set :deployedit_server, 'http://www.example.org:4567'
+
+Finally hook the task into your deploy cycle:
+
+    before "deploy:update_code", "deploy:remember"
+
+That's it.
 
 
 
