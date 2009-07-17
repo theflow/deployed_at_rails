@@ -7,7 +7,12 @@ def remember_deploy(deploy_message)
   app_name = exists?(:stage) ? "#{application} (#{stage})" : application
 
   client = DeployedIt::Client.new(deployedit_server)
-  client.new_deploy(app_name, ENV['USER'], deploy_message, svn_log, head_rev, current_rev)
+
+  begin
+    client.new_deploy(app_name, ENV['USER'], deploy_message, svn_log, head_rev, current_rev)
+  rescue
+    Capistrano::CLI.ui.say("<%= color('deployed_at is not available, continuing anyway ...', BOLD, BLUE) %>")
+  end
 end
 
 _cset(:deployedit_server) { abort "Please specify the URL where your deployed_it server is running, set :deployedit_server, 'http://dev.example.org:4567'" }
